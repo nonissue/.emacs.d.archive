@@ -1,0 +1,22 @@
+(source gnu)
+(source marmalade)
+(source melpa)
+(source melpa-stable)
+
+(depends-on "f")
+(depends-on "s")
+(depends-on "dash")
+(depends-on "smart-mode-line")
+
+(depends-on "company")
+(depends-on "company-jedi")
+(depends-on "helm")
+(depends-on "helm-company")
+(depends-on "helm-themes")
+(depends-on "smex")
+(depends-on "hydra")
+(depends-on "rainbow-mode")
+(depends-on "rainbow-delimiters")
+(depends-on "smartparens")
+
+(depends-on "darktooth-theme")
