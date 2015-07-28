@@ -11,6 +11,9 @@
 (require 'cask "/usr/local/share/emacs/site-lisp/cask.el")
 (cask-initialize)
 
+(when (memq window-system '(mac ns))
+  (exec-path-from-shell-initialize))
+
 ;; sml config
 (setq sml/theme 'automatic
       sml/mode-width 'full
@@ -23,10 +26,57 @@
 (setq custom-safe-themes t)
 
 ;; theme directory
+(add-to-list 'load-path "~/.emacs.d/settings")
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 ;; (require 'nonissue)
-(load-theme 'nonissue t)
+
 (load-theme 'darktooth t)
+(load-theme 'nonissue t)
+(global-linum-mode t)
+
+;; desktop save mode
+;; Automatically save and restore sessions
+
+
+;; This fixes line num background missing on lines that wrap
+;; not sure if it's worth it.
+(defvar endless/margin-display
+  `((margin left-margin) ,(propertize "     " 'face 'linum))
+  "String used on the margin.")
+
+(defvar-local endless/margin-overlays nil
+  "List of overlays in current buffer.")
+
+(defun endless/setup-margin-overlays ()
+  "Put overlays on each line which is visually wrapped."
+  (interactive)
+  (let ((ww (- (window-width)
+               (if (= 0 (or (cdr fringe-mode) 1)) 1 0)))
+        ov)
+    (mapc #'delete-overlay endless/margin-overlays)
+    (save-excursion
+      (goto-char (point-min))
+      (while (null (eobp))
+        ;; On each logical line
+        (forward-line 1)
+        (save-excursion
+          (forward-char -1)
+          ;; Check if it has multiple visual lines.
+          (while (>= (current-column) ww)
+            (endles/make-overlay-at (point))
+            (forward-char (- ww))))))))
+
+(defun endles/make-overlay-at (p)
+  "Create a margin overlay at position P."
+  (push (make-overlay p (1+ p)) endless/margin-overlays)
+  (overlay-put
+   (car endless/margin-overlays) 'before-string
+   (propertize " "  'display endless/margin-display)))
+
+
+
+
+(add-hook 'linum-before-numbering-hook #'endless/setup-margin-overlays)
 
 ;; fix scratch buffer
 (setq initial-scratch-message "")
@@ -94,7 +144,34 @@
 (global-set-key (kbd "M-x") 'helm-M-x)
 ;; (global-set-key (kbd "<f10>") 'helm-resume)
 
+;; helm-projectile set up
+(projectile-global-mode)
+(setq projectile-completion-system 'helm)
+(setq projectile-switch-project-action 'helm-projectile)
+(helm-projectile-on)
 
+;; helm customization
+(setq helm-ff-ido-style-backspace 'always
+      helm-ff-auto-update-initial-value t
+      helm-ff--auto-update-state t)
+
+(with-eval-after-load 'helm-files
+  (define-key helm-read-file-map (kbd "<backspace>") 'helm-find-files-up-one-level)
+  (define-key helm-find-files-map (kbd "<backspace>") 'helm-find-files-up-one-level))
+
+(setq helm-ff-newfile-prompt-p nil
+      helm-ff-skip-boring-files t)
+
+(setq multi-term-program "/bin/bash")
+
+;; mode customizations
+;; move?
+;; markdown
+(autoload 'markdown-mode "markdown-mode"
+   "Major mode for editing Markdown files" t)
+(add-to-list 'auto-mode-alist '("\\.text\\'" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
 
 
 (defun my-after-init ()
@@ -104,12 +181,21 @@
   (recentf-mode)
   (savehist-mode)
   (require 'saveplace)
+  (require 'multi-term)
+  
   ;; (company-quickhelp-mode)
+  (require 'evil)
+  (require 'evil-leader)
+  (evil-mode)
   (smex-initialize)
   (helm-mode)
+  (require 'projectile)
+  (require 'helm-projectile)
   ;;(require 'helm-smex)
-  (line-number-mode)
-  (column-number-mode))
+  (column-number-mode)
+  (require 'defuns)
+  (require 'my-desktop)
+  (require 'key-bindings))
   
 
 (add-hook 'after-init-hook 'my-after-init)
