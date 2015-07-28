@@ -182,6 +182,7 @@
   (savehist-mode)
   (require 'saveplace)
   (require 'multi-term)
+  (require 'magit)
   
   ;; (company-quickhelp-mode)
   (require 'evil)
@@ -193,6 +194,8 @@
   (require 'helm-projectile)
   ;;(require 'helm-smex)
   (column-number-mode)
+  
+  (require 'emmet-mode)
   (require 'defuns)
   (require 'my-desktop)
   (require 'key-bindings))

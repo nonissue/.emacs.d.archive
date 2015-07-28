@@ -15,6 +15,7 @@
 (depends-on "helm-themes")
 (depends-on "projectile")
 (depends-on "helm-projectile")
+(depends-on "magit")
 (depends-on "smex")
 (depends-on "hydra")
 (depends-on "rainbow-mode")
@@ -26,4 +27,5 @@
 (depends-on "multi-term")
 
 (depends-on "markdown-mode")
+(depends-on "emmet-mode")
 (depends-on "darktooth-theme")
