@@ -168,11 +168,23 @@
 ;; move?
 ;; markdown
 (autoload 'markdown-mode "markdown-mode"
-   "Major mode for editing Markdown files" t)
+  "Major mode for editing Markdown files" t)
 (add-to-list 'auto-mode-alist '("\\.text\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
 
+;; Emmet mode hooks
+;; move?
+(add-hook 'sgml-mode-hook 'emmet-mode) ;; Auto-start on any markup modes
+(add-hook 'css-mode-hook  'emmet-mode) ;; enable Emmet's css abbreviation.
+
+;; web mode hooks
+;; enabled for html since meteor uses erb in html
+(add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+
+;; haskell mode hook
+(add-hook 'haskell-mode-hook 'haskell-indentation-mode)
 
 (defun my-after-init ()
   (sml/setup)
@@ -192,13 +204,19 @@
   (helm-mode)
   (require 'projectile)
   (require 'helm-projectile)
+  (require 'elpy)
+  (elpy-enable)
+  (elpy-use-ipython)
   ;;(require 'helm-smex)
   (column-number-mode)
   
   (require 'emmet-mode)
+  (require 'web-mode)
+  (require 'haskell-mode)
   (require 'defuns)
   (require 'my-desktop)
-  (require 'key-bindings))
-  
+  (require 'key-bindings)
+  )
+
 
 (add-hook 'after-init-hook 'my-after-init)

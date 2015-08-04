@@ -10,6 +10,7 @@
 
 (depends-on "company")
 (depends-on "company-jedi")
+(depends-on "elpy")
 (depends-on "helm")
 (depends-on "helm-company")
 (depends-on "helm-themes")
@@ -26,6 +27,8 @@
 (depends-on "exec-path-from-shell")
 (depends-on "multi-term")
 
+(depends-on "haskell-mode")
+(depends-on "web-mode")
 (depends-on "markdown-mode")
 (depends-on "emmet-mode")
 (depends-on "darktooth-theme")
