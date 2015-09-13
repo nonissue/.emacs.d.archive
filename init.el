@@ -186,6 +186,12 @@
 ;; haskell mode hook
 (add-hook 'haskell-mode-hook 'haskell-indentation-mode)
 
+;; javascript (js2-mode and ac-js2 for autocomplete)
+
+(add-hook 'js-mode-hook 'js2-minor-mode)
+(add-hook 'js2-mode-hook 'ac-js2-mode)
+(setq js2-highlight-level 3)
+
 (defun my-after-init ()
   (sml/setup)
   (require 'dash)
@@ -216,6 +222,8 @@
   (require 'defuns)
   (require 'my-desktop)
   (require 'key-bindings)
+  (require 'js2-mode)
+  (require 'ac-js2)
   )
 
 

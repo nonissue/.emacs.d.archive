@@ -8,8 +8,7 @@
 (depends-on "dash")
 (depends-on "smart-mode-line")
 
-(depends-on "company")
-(depends-on "company-jedi")
+(depends-on "auto-complete")
 (depends-on "elpy")
 (depends-on "helm")
 (depends-on "helm-company")
@@ -32,3 +31,5 @@
 (depends-on "markdown-mode")
 (depends-on "emmet-mode")
 (depends-on "darktooth-theme")
+(depends-on "js2-mode")
+(depends-on "ac-js2")
