@@ -8,7 +8,7 @@
 (blink-cursor-mode 0)
 
 ;; cask
-(require 'cask "/usr/local/share/emacs/site-lisp/cask.el")
+(require 'cask "/usr/local/share/emacs/site-lisp/cask/cask.el")
 (cask-initialize)
 
 (when (memq window-system '(mac ns))

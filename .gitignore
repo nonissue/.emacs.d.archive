@@ -30,3 +30,5 @@ Cask~
 /etc
 .#*
 /desktop-sessions
+#*
+*#
