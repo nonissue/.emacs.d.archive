@@ -32,3 +32,4 @@
 (depends-on "markdown-mode")
 (depends-on "emmet-mode")
 (depends-on "darktooth-theme")
+(depends-on "lua-mode")
