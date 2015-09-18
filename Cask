@@ -33,3 +33,4 @@
 (depends-on "darktooth-theme")
 (depends-on "js2-mode")
 (depends-on "ac-js2")
+(depends-on "js-comint")

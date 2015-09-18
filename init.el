@@ -164,6 +164,9 @@
 
 (setq multi-term-program "/bin/bash")
 
+;; Auto-complete mode
+(autoload 'auto-complete-mode "auto-complete" nil t)
+
 ;; mode customizations
 ;; move?
 ;; markdown
@@ -191,6 +194,10 @@
 (add-hook 'js-mode-hook 'js2-minor-mode)
 (add-hook 'js2-mode-hook 'ac-js2-mode)
 (setq js2-highlight-level 3)
+
+;; if use node.js, we need nice output
+(setenv "NODE_NO_READLINE" "1")
+(setq inferior-js-program-command "node --interactive")
 
 (defun my-after-init ()
   (sml/setup)
@@ -224,6 +231,7 @@
   (require 'key-bindings)
   (require 'js2-mode)
   (require 'ac-js2)
+  (require 'js-comint)
   )
 
 
