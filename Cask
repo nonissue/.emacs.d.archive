@@ -31,6 +31,10 @@
 (depends-on "markdown-mode")
 (depends-on "emmet-mode")
 (depends-on "darktooth-theme")
+<<<<<<< HEAD
 (depends-on "js2-mode")
 (depends-on "ac-js2")
 (depends-on "js-comint")
+=======
+(depends-on "lua-mode")
+>>>>>>> 1865e17afcfd3b5db144c155797be025e4495232
