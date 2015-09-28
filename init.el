@@ -182,6 +182,7 @@
 ;; enabled for html since meteor uses erb in html
 (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+(setq web-mode-enable-engine-detection t)
 
 ;; haskell mode hook
 (add-hook 'haskell-mode-hook 'haskell-indentation-mode)
