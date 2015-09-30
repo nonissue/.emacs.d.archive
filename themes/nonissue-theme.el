@@ -41,6 +41,7 @@
 (add-to-list 'default-frame-alist '(internal-border-width . 0))
 (set-fringe-mode '(8 . 0))
 
+;; set background to opaque. definite performance hit
 (set-frame-parameter (selected-frame) 'alpha '(95 90))
 (add-to-list 'default-frame-alist '(alpha 95 90))
 

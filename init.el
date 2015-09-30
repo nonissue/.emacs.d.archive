@@ -1,4 +1,9 @@
-;; disable annoying start up screen
+;; new favourite emacs config
+;; because it's hella simple
+;; https://github.com/Slava/emacs.d
+;; references purcells sanityinc config as well
+
+;;; disable annoying start up screen
 (setq inhibit-startup-screen t)
 
 ;; disable superfluous gui
@@ -14,6 +19,10 @@
 (when (memq window-system '(mac ns))
   (exec-path-from-shell-initialize))
 
+
+;; define is a mac
+(defconst *is-a-mac* (eq system-type 'darwin))
+
 ;; sml config
 (setq sml/theme 'automatic
       sml/mode-width 'full
@@ -28,15 +37,88 @@
 ;; theme directory
 (add-to-list 'load-path "~/.emacs.d/settings")
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
+
+;;----------------------------------------------------------------------------
+
+;; Fonts -> init-fonts.el
+;;----------------------------------------------------------------------------
+
+(defun sanityinc/font-name-replace-size (font-name new-size)
+  (let ((parts (split-string font-name "-")))
+    (setcar (nthcdr 7 parts) (format "%d" new-size))
+    (mapconcat 'identity parts "-")))
+
+(defun sanityinc/set-frame-font-size (size)
+    (set-frame-font (sanityinc/font-name-replace-size (face-font 'default) size) t t))
+
+
+;;----------------------------------------------------------------------------
+;; Move to init-mac
+;;----------------------------------------------------------------------------
+
+
+(when (memq window-system '(mac ns))
+  (add-to-list 'default-frame-alist '(font . "Source Code Pro-13"))
+  (set-face-attribute 'default t :font "Source Code Pro-1")
+  (sanityinc/set-frame-font-size 14)
+  (define-key global-map (kbd "<s-return>") 'toggle-frame-fullscreen))
+
+
+;; tern.js
+;; not working
+;; (add-to-list 'load-path "~/.emacs.d/tern/emacs/")
+;; (autoload 'tern-mode "tern.el" nil t)
+
+;;----------------------------------------------------------------------------
+;; Theme sht
+;;----------------------------------------------------------------------------
+
 ;; (require 'nonissue)
 
-(load-theme 'darktooth t)
-(load-theme 'nonissue t)
+;; (load-theme 'darktooth t)
+;; (load-theme 'nonissue t)
+
+(load-theme 'spacegray t)
 (global-linum-mode t)
+
+
+;;----------------------------------------------------------------------------
+;; Window size and features
+;;----------------------------------------------------------------------------
+
+;; indicate frames not in buffer
+(setq indicate-empty-lines t)
+
+;; adjust border
+(let ((no-border '(internal-border-width . 0)))
+  (add-to-list 'default-frame-alist no-border)
+  (add-to-list 'initial-frame-alist no-border))
+
+(when (and *is-a-mac* (fboundp 'toggle-frame-fullscreen))
+  ;; Command-Option-f to toggle fullscreen mode
+  ;; Hint: Customize `ns-use-native-fullscreen'
+  (global-set-key (kbd "M-ƒ") 'toggle-frame-fullscreen))
+
+;; adjust opacity
+(set-frame-parameter (selected-frame) 'alpha '(100 90))
+(add-to-list 'default-frame-alist '(alpha 100 90))
+
+;; highlight line
+(global-hl-line-mode 1)
+
+;; show line numbers dynamically with spaces
+(defadvice linum-update-window (around linum-dynamic activate)
+  (let* ((w (length (number-to-string
+                     (count-lines (point-min) (point-max)))))
+         (linum-format (concat " %" (number-to-string w) "d ")))
+    ad-do-it))
 
 ;; desktop save mode
 ;; Automatically save and restore sessions
 
+;;----------------------------------------------------------------------------
+;; move this to init-gui under window?
+;;----------------------------------------------------------------------------
 
 ;; This fixes line num background missing on lines that wrap
 ;; not sure if it's worth it.
@@ -78,21 +160,18 @@
 
 (add-hook 'linum-before-numbering-hook #'endless/setup-margin-overlays)
 
+;; end of gui shit
+
+;;----------------------------------------------------------------------------
+;; sane defaults?
+;;----------------------------------------------------------------------------
+
 ;; fix scratch buffer
 (setq initial-scratch-message "")
 (setq initial-major-mode 'emacs-lisp-mode)
 
-;; set initial buffer to notes
-;; disabled until i learn org-mode
-;; (setq remember-notes-initial-major-mode 'org-mode)
-;; (setq initial-buffer-choice 'remember-notes)
-
 ;; shorten yes/no to y/n
 (fset 'yes-or-no-p 'y-or-n-p)
-
-;; fix scrolling
-(setq scroll-conservatively 10000
-      scroll-preserve-screen-position t)
 
 ;; indent with spaces
 (setq-default indent-tabs-mode nil)
@@ -132,11 +211,9 @@
 ;; move bookmarks
 (setq bookmark-default-file "~/.emacs.d/etc/bookmarks")
 
-;; keybindings
-
-;; Change M-x, original M-x rebound 
-;; (global-set-key (kbd "M-x") 'helm-smex)
-;; (global-set-key (kbd "C-c M-x") 'execute-extended-command)
+;;----------------------------------------------------------------------------
+;; Helm Config
+;;----------------------------------------------------------------------------
 
 ;; Helm
 (global-set-key (kbd "C-x C-f") 'helm-find-files)
@@ -151,9 +228,10 @@
 (helm-projectile-on)
 
 ;; helm customization
-(setq helm-ff-ido-style-backspace 'always
-      helm-ff-auto-update-initial-value t
-      helm-ff--auto-update-state t)
+;; I don't really like this so I'm disabling
+;; (setq helm-ff-ido-style-backspace 'always
+;;       helm-ff-auto-update-initial-value t
+;;       helm-ff--auto-update-state t)
 
 (with-eval-after-load 'helm-files
   (define-key helm-read-file-map (kbd "<backspace>") 'helm-find-files-up-one-level)
@@ -162,14 +240,16 @@
 (setq helm-ff-newfile-prompt-p nil
       helm-ff-skip-boring-files t)
 
+;; Defualt term > sane defualts?
 (setq multi-term-program "/bin/bash")
 
 ;; Auto-complete mode
 (autoload 'auto-complete-mode "auto-complete" nil t)
 
-;; mode customizations
-;; move?
-;; markdown
+;;----------------------------------------------------------------------------
+;; Mode customizations -> mode specific files .el
+;;----------------------------------------------------------------------------
+
 (autoload 'markdown-mode "markdown-mode"
   "Major mode for editing Markdown files" t)
 (add-to-list 'auto-mode-alist '("\\.text\\'" . markdown-mode))
@@ -192,13 +272,21 @@
 
 ;; javascript (js2-mode and ac-js2 for autocomplete)
 
+(add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
 (add-hook 'js-mode-hook 'js2-minor-mode)
-(add-hook 'js2-mode-hook 'ac-js2-mode)
+;; (add-hook 'js2-mode-hook 'ac-js2-mode) 
 (setq js2-highlight-level 3)
+
+;; tern.js config
+(add-hook 'js2-mode-hook (lambda () (tern-mode t)))
 
 ;; if use node.js, we need nice output
 (setenv "NODE_NO_READLINE" "1")
 (setq inferior-js-program-command "node --interactive")
+
+;;----------------------------------------------------------------------------
+;; Require packages
+;;----------------------------------------------------------------------------
 
 (defun my-after-init ()
   (sml/setup)
@@ -231,9 +319,21 @@
   (require 'my-desktop)
   (require 'key-bindings)
   (require 'js2-mode)
-  (require 'ac-js2)
+  ;; (require 'ac-js2)
   (require 'js-comint)
   )
 
 
 (add-hook 'after-init-hook 'my-after-init)
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(safe-local-variable-values (quote ((engine . blaze)))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
