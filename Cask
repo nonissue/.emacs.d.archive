@@ -25,6 +25,8 @@
 (depends-on "evil-leader")
 (depends-on "exec-path-from-shell")
 (depends-on "multi-term")
+(depends-on "avy")
+(depends-on "ace-window")
 
 (depends-on "haskell-mode")
 (depends-on "web-mode")

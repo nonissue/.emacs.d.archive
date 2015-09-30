@@ -74,7 +74,6 @@
 ;;----------------------------------------------------------------------------
 
 ;; (require 'nonissue)
-
 ;; (load-theme 'darktooth t)
 ;; (load-theme 'nonissue t)
 
@@ -311,6 +310,8 @@
   (elpy-use-ipython)
   ;;(require 'helm-smex)
   (column-number-mode)
+  (require 'avy)
+  (require 'ace-window)
   
   (require 'emmet-mode)
   (require 'web-mode)
