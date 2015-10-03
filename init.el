@@ -57,13 +57,14 @@
 ;;----------------------------------------------------------------------------
 
 
-(when (memq window-system '(mac ns))
-  (add-to-list 'default-frame-alist '(font . "Source Code Pro-13"))
-  (set-face-attribute 'default t :font "Source Code Pro-1")
-  (sanityinc/set-frame-font-size 14)
-  (define-key global-map (kbd "<s-return>") 'toggle-frame-fullscreen))
+;; (when (memq window-system '(mac ns))
+;;   (add-to-list 'default-frame-alist '(font . "Source Code Pro-13"))
+;;   (set-face-attribute 'default t :font "Source Code Pro-1")
+;;   (sanityinc/set-frame-font-size 14)
+;;   (define-key global-map (kbd "<s-return>") 'toggle-frame-fullscreen))
 
 
+(set-default-font "Source Code Pro-12")
 ;; tern.js
 ;; not working
 ;; (add-to-list 'load-path "~/.emacs.d/tern/emacs/")
@@ -156,8 +157,11 @@
 
 
 
+;; this was causing graphical anomalies when scrolling upward.
+;; probably not worth using
+;; (add-hook 'linum-before-numbering-hook #'endless/setup-margin-overlays)
 
-(add-hook 'linum-before-numbering-hook #'endless/setup-margin-overlays)
+
 
 ;; end of gui shit
 
@@ -300,7 +304,7 @@
   ;; (company-quickhelp-mode)
   (require 'evil)
   (require 'evil-leader)
-  (evil-mode)
+  ;; (evil-mode)
   (smex-initialize)
   (helm-mode)
   (require 'projectile)
