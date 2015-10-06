@@ -38,6 +38,19 @@
 (add-to-list 'load-path "~/.emacs.d/settings")
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 
+
+
+;; hides menu bar and moves frame to right place
+(setq ns-auto-hide-menu-bar t)
+(set-frame-position nil 0 -22)
+(tool-bar-mode 0)
+;; (add-to-list 'default-frame-alist '(fullscreen . maximized))
+;; size for display on macbook pro retina?
+;; if window is resized with ahmmersppon, this breaks though
+(set-frame-size nil 237 70)
+
+
+
 ;;----------------------------------------------------------------------------
 
 ;; Fonts -> init-fonts.el
@@ -78,7 +91,8 @@
 ;; (load-theme 'darktooth t)
 ;; (load-theme 'nonissue t)
 
-(load-theme 'spacegray t)
+;; (load-theme 'spacegray t)
+(load-theme 'whiteboard t)
 (global-linum-mode t)
 
 
@@ -281,7 +295,7 @@
 (setq js2-highlight-level 3)
 
 ;; tern.js config
-(add-hook 'js2-mode-hook (lambda () (tern-mode t)))
+;; (add-hook 'js2-mode-hook (lambda () (tern-mode t)))
 
 ;; if use node.js, we need nice output
 (setenv "NODE_NO_READLINE" "1")
