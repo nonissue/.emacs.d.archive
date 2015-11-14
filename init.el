@@ -91,7 +91,7 @@
 ;; (load-theme 'darktooth t)
 ;; (load-theme 'nonissue t)
 
-(load-theme 'spacegray t)
+(load-theme 'sanityinc-tomorrow-blue t)
 ;; (load-theme 'whiteboard t)
 (global-linum-mode t)
 
