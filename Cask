@@ -38,3 +38,4 @@
 (depends-on "js-comint")
 (depends-on "lua-mode")
 (depends-on "spacegray-theme")
+(depends-on "color-theme-sanityinc-tomorrow")
