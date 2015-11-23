@@ -301,6 +301,16 @@
 (setenv "NODE_NO_READLINE" "1")
 (setq inferior-js-program-command "node --interactive")
 
+
+;; SPARC Assembly specific customizations
+(setq asm-comment-char 33)
+(setq asm-mode-hook
+      (lambda ()
+        (setq indent-tabs-mode t)
+        ;; (setq tab-always-indent (default-value 'tab-always-indent))
+        (add-hook 'before-save-hook
+                  (lambda () (tabify (point-min) (point-max))) nil t)))
+
 ;;----------------------------------------------------------------------------
 ;; Require packages
 ;;----------------------------------------------------------------------------
