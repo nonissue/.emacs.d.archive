@@ -46,7 +46,7 @@
 (tool-bar-mode 0)
 ;; (add-to-list 'default-frame-alist '(fullscreen . maximized))
 ;; size for display on macbook pro retina?
-;; if window is resized with ahmmersppon, this breaks though
+;; if window is resized with hammerspoon, this breaks though
 (set-frame-size nil 237 70)
 
 
