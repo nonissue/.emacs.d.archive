@@ -257,7 +257,7 @@
 (setq helm-ff-newfile-prompt-p nil
       helm-ff-skip-boring-files t)
 
-;; Defualt term > sane defualts?
+;; Default term > sane defaults?
 (setq multi-term-program "/bin/bash")
 
 ;; Auto-complete mode
